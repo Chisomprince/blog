@@ -1,0 +1,19 @@
+.main {
+  min-height: 100vh;
+  padding: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+/* .gridcontainer {
+  flex-direction: row;
+  display: flex;
+
+  justify-content: space-around;
+  flex-wrap: wrap;
+} */
+@media (max-width: 600) {
+  .main {
+    width: 25px;
+  }
+}

@@ -1,0 +1,41 @@
+.cardspan {
+  margin-left: 20px;
+}
+
+.img {
+  width: 200px;
+  height: "auto";
+  background-position: center;
+  background-size: contain;
+  flex-grow: -1;
+}
+.container {
+  width: 150px;
+}
+@media (max-width: 600) {
+  .img {
+    width: 100px;
+  }
+}
+
+.main {
+  min-height: 100vh;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: row;
+  padding: 100px;
+  justify-content: space-around;
+}
+/* .gridcontainer {
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+ */
+@media (max-width: 600px) {
+  .main {
+    padding: 50px;
+  }
+}

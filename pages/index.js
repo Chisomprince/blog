@@ -1,65 +1,95 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
+import Layout from '../components/layout'
+import RowCard from '../components/cards/rowCard'
+import axios from 'axios'
 
-export default function Home() {
+import Post from '../components/cards/post'
+import Grid from '@material-ui/core/Grid'
+import matter from 'gray-matter'
+import Link from 'next/link'
+import Card from '@material-ui/core/Card'
+import Typography from '@material-ui/core/Typography'
+import Jobcard from '../components/cards/jobCard'
+import Adscard from '../components/cards/adsCard'
+import post from '../components/cards/post'
+
+export default function Home({data,title,description}) {
+
   return (
+    
+    <Layout>
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
+  <title>{title}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Welcome to stacks node
         </h1>
 
         <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
+          read top articles on stacks you love
+          <code className={styles.code}>just some codes</code>
         </p>
+       <div className={styles.gridcontainer}>
+<Grid container spacing={4} justify='center'>
+              <Grid item>
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+              </Grid>
+              <Grid item >
+                <Card style={{maxWidth:700}}>
+                   {data.map((blog, i) => (
+                 
+                    <Link href={`/posts/${blog.title}`}>
+                    <Post key={i} title={blog.title}  date={blog.date} href={`/posts/${blog.title}`}/>
+                    </Link>
+                   
+                  
+                ))}
+                </Card>
+               
+                
+              </Grid>
+              <Grid item align='flex-start' >
+<Jobcard/>
+<Adscard/>
+              </Grid>
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+</Grid>
+            
+      
         </div>
       </main>
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
+     
     </div>
+    
+
+    
+    </Layout>
   )
+}
+
+
+
+export async function getStaticProps({prams}){
+const siteData = await import('../config.json')
+   const res = await axios.get('http://localhost:1337/blogs'
+   )
+  const data = res.data.map((post) => ({title:post.title, date:post.date})) 
+    console.log('data',data)
+  return{
+    
+    props:{
+      data,
+      title: siteData.default.title,
+      description: siteData.default.description,
+     
+    
+    }
+    
+  }
 }
